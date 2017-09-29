@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Install package for local development (assuming R and OpenMPI are installed)
+
+# Install devtools and roxygen2
+R -e 'install.packages(c("devtools", "roxygen2"), repo="http://cran.us.r-project.org")'
+
+# Install dependencies
+R -e 'library(devtools); install_deps(pkg=".", dependencies=TRUE, threads=getOption("Ncpus", 1))'
+
+# Install package to user library
+R CMD INSTALL .

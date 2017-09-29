@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Build documentation, compile C++ attributes
+R -e 'sink("src/redist_init.c");tools::package_native_routine_registration_skeleton(".");sink()'
+R -e 'devtools::document()'
+R -e 'library(Rcpp);compileAttributes(verbose = TRUE)'
+
+# Clean up src folder before build
+rm -rf src/*.o src/*.so src/*.rds
+
+pushd ..
+
+# Build and run CRAN checks
+R CMD build redist --resave-data 
+R CMD check redist_*.tar.gz --as-cran
+
+popd
