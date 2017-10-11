@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+mpiexec -np 1 R --no-save < demo/fig3_mpi_10.R
+
