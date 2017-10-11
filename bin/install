@@ -1,12 +1,30 @@
 #!/usr/bin/env bash
 
-# Install package for local development (assuming R and OpenMPI are installed)
+# NOTE: This is for Ubuntu 16.04
+
+# TODO: May want to consider installing R from source if we don't have sudo access
+# Install R and OpenMPI
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+sudo apt update
+sudo apt install -y \
+  r-base \
+  openmpi-bin \
+  openmpi-doc \
+  libssl-dev \
+  curl \
+  libopenmpi-dev \
+  libcurl4-openssl-dev \
+  pkg-config \
+  libxml2-dev
+
+# TODO: We should install locally, but we can worry about that later
 
 # Install devtools and roxygen2
-R -e 'install.packages(c("devtools", "roxygen2"), repo="http://cran.us.r-project.org")'
+sudo R -e 'install.packages(c("devtools", "roxygen2"), repo="http://cran.us.r-project.org")'
 
 # Install dependencies
-R -e 'library(devtools); install_deps(pkg=".", dependencies=TRUE, threads=getOption("Ncpus", 1))'
+sudo R -e 'library(devtools); install_deps(pkg=".", dependencies=TRUE, threads=getOption("Ncpus", 1))'
 
 # Install package to user library
-R CMD INSTALL .
+sudo R CMD INSTALL .
